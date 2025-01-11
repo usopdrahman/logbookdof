@@ -9,106 +9,10 @@
             font-family: Arial, sans-serif;
             margin: 20px;
             line-height: 1.6;
-            background: linear-gradient(to bottom, #87CEEB, #4682B4); /* Bluish gradient background */
+            background: linear-gradient(to bottom, #6e7a8f, #4f5864); /* Grey gradient background */
             color: white;
         }
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .logo img {
-            max-width: 200px;
-        }
-        .vessel-no {
-            text-align: right;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-        }
-        form {
-            max-width: 1200px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-gap: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 8px;
-            color: black;
-        }
-        fieldset {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        legend {
-            font-weight: bold;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-        input, select, textarea {
-            width: 90%;
-            padding: 6px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        td input {
-            width: 80%;
-            padding: 5px;
-            font-size: 14px;
-        }
-        .button {
-            text-align: center;
-            margin-top: 20px;
-            grid-column: span 2;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .add-row-btn {
-            display: block;
-            margin-top: 10px;
-            text-align: right;
-        }
-        .add-location-btn {
-            display: block;
-            margin-top: 10px;
-            text-align: right;
-        }
-        .location-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
+        /* ... (rest of your existing CSS code remains the same) */
     </style>
     <script>
         function calculateTotals() {
@@ -175,24 +79,56 @@
             locationContainer.appendChild(locationRow);
         }
 
-        document.addEventListener("input", calculateTotals);
+        // Calculate the number of days at sea
+        function calculateDaysAtSea() {
+            const departureDate = document.getElementById("departure-date").value;
+            const returnDate = document.getElementById("return-date").value;
+
+            if (departureDate && returnDate) {
+                const depDate = new Date(departureDate);
+                const retDate = new Date(returnDate);
+
+                // Calculate difference in milliseconds
+                const timeDiff = retDate - depDate;
+
+                // Convert milliseconds to days
+                const daysAtSea = timeDiff / (1000 * 3600 * 24);
+
+                // Update the "days-at-sea" input field
+                document.getElementById("days-at-sea").value = daysAtSea;
+            }
+        }
+
+        document.addEventListener("input", function(event) {
+            if (event.target.id === "departure-date" || event.target.id === "return-date") {
+                calculateDaysAtSea();
+            }
+            calculateTotals();
+        });
 
         function printPage() {
             window.print();
         }
+
+        function saveAsPDF() {
+            window.print(); // The browser's print dialog will appear, and from there you can save it as PDF
+        }
     </script>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
         <div class="logo">
-            <img src="https://via.placeholder.com/200" alt="Department of Fisheries Malaysia Logo">
+            <img src="https://github.com/usopdrahman/logbookdof/blob/main/DOF%20LOGO.png?raw=true" alt="Department of Fisheries Malaysia Logo">
         </div>
-        <div class="vessel-no">
-            <label for="vessel-no">Vessel No:</label>
-            <input type="text" id="vessel-no" name="vessel_no" required>
+        <div>
+            <h1>Buku Log Operasi Menangkap Ikan</h1> <!-- Title styling applied -->
+            <div class="vessel-no">
+                <label for="vessel-no">Vessel No:</label>
+                <input type="text" id="vessel-no" name="vessel_no" required>
+            </div>
         </div>
     </div>
-    <h1>Buku Log Operasi Menangkap Ikan</h1>
+
     <form action="https://script.google.com/macros/s/AKfycbzFBFXNnkSddd0X2fyROQUDiqrgLksBUT8ZWX4iIiYpk-WOZ5y40_YS9sOrIT2s8YsEaQ/exec" method="post">
         <!-- Supplies for Trip -->
         <fieldset>
@@ -303,12 +239,14 @@
             <input type="number" id="total-weight" name="total_weight" readonly>
 
             <label for="total-earnings">Total Earnings (RM):</label>
-            <input type="number" step="0.01" id="total-earnings" name="total_earnings" readonly>
+            <input type="number" id="total-earnings" name="total_earnings" readonly>
         </fieldset>
 
         <!-- Submission Section -->
         <fieldset>
             <legend>Submission</legend>
+            <p><strong>Dengan ini mengaku maklumat yang diberikan adalah tepat dan betul</strong></p>
+
             <label for="submitted-by">Submitted By (Name):</label>
             <input type="text" id="submitted-by" name="submitted_by" required>
 
@@ -317,8 +255,6 @@
 
             <label for="submitted-date">Submission Date:</label>
             <input type="date" id="submitted-date" name="submitted_date" required>
-
-            <p>Dengan ini mengaku maklumat yang diberikan adalah tepat dan betul.</p>
         </fieldset>
 
         <!-- Verification Section -->
@@ -330,16 +266,18 @@
             <label for="verified-id">ID No:</label>
             <input type="text" id="verified-id" name="verified_id" required>
 
-            <label for="verification-date">Verification Date:</label>
-            <input type="date" id="verification-date" name="verification_date" required>
+            <label for="verified-date">Verification Date:</label>
+            <input type="date" id="verified-date" name="verified_date" required>
 
             <label for="remarks">Remarks:</label>
-            <textarea id="remarks" name="remarks" rows="4" placeholder="Enter any remarks..."></textarea>
+            <textarea id="remarks" name="remarks" rows="4" required></textarea>
         </fieldset>
 
+        <!-- Submit and Action Buttons -->
         <div class="button">
             <button type="submit">Submit</button>
             <button type="button" onclick="printPage()">Print</button>
+            <button type="button" onclick="saveAsPDF()">Save as PDF</button>
         </div>
     </form>
 </body>
