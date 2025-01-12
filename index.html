@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fishing Operation Log</title>
+    <title>Buku Log Operasi Menangkap Ikan</title>
     <style>
     	body {
             font-family: Arial, sans-serif;
             margin: 20px;
             line-height: 1.6;
-            background: linear-gradient(to bottom, #6e7a8f, #4f5864); /* Blue gradient background */
+            background: linear-gradient(to bottom, #a5aff4, #0c26d6); /* Blue gradient background */
             color: white;
         }
         .header {
@@ -392,6 +392,7 @@
                                 <option value="Ikan Aji">Ikan Aji</option>
                                 <option value="Ikan Pelaling">Ikan Pelaling</option>
                                 <option value="Ikan Baja">Ikan Baja</option>
+				<option value="Ikan Baja">Ikan Siakap</option>
                             </select>
                         </td>
                         <td><input type="text" name="code[]" required></td>
@@ -415,10 +416,10 @@
 
         <!-- Submission Section -->
         <fieldset>
-            <legend>Submission</legend>
+            <legend>Submitted By</legend>
             <p><strong>Dengan ini mengaku maklumat yang diberikan adalah tepat dan betul</strong></p>
             
-	    <label for="submitted-by">Submitted By (Name):</label>
+	    <label for="submitted-by">Name:</label>
             <input type="text" id="submitted-by" name="submitted_by" required>
             
             <label for="submitted-id">IC No:</label>
@@ -430,10 +431,10 @@
 
 	<!-- Verification Section -->
         <fieldset>
-            <legend>Verification</legend>
+            <legend>Verified By</legend>
 	    <p><strong>Dengan ini mengaku telah memastikan maklumat yang diberikan adalah tepat dan betul</strong></p>
 
-            <label for="verified-by">Verified By (Name):</label>
+            <label for="verified-by">Name:</label>
             <input type="text" id="verified-by" name="verified_by" required>
 
             <label for="verified-id">IC No:</label>
