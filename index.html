@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fishing Operation Log</title>
     <style>
-        body {
+    	body {
             font-family: Arial, sans-serif;
             margin: 20px;
             line-height: 1.6;
@@ -196,36 +196,23 @@
             document.getElementById("total-earnings").value = totalEarnings.toFixed(2);
         }
 
-	function calculateDaysAtSea() {
-            const departureDateInput = document.getElementById("departure-date");
-            const returnDateInput = document.getElementById("return-date");
-            const daysAtSeaInput = document.getElementById("days-at-sea");
+        function setupEventListeners() {
+            const rows = document.querySelectorAll("tbody tr");
 
-            const departureDate = departureDateInput.value;
-            const returnDate = returnDateInput.value;
+            rows.forEach(row => {
+                const weightInput = row.querySelector("input[name='weight[]']");
+                const priceInput = row.querySelector("input[name='price[]']");
 
-            if (departureDate && returnDate) {
-                const startDate = new Date(departureDate);
-                const endDate = new Date(returnDate);
+                
+                weightInput.removeEventListener("input", calculateTotals);
+                priceInput.removeEventListener("input", calculateTotals);
 
-                if (startDate > endDate) {
-                    alert("Return date cannot be earlier than the departure date.");
-                    daysAtSeaInput.value = "";
-                    return;
-                }
-
-                const timeDifference = endDate - startDate;
-                const daysAtSea = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-
-                daysAtSeaInput.value = daysAtSea;
-            } else {
-                daysAtSeaInput.value = "";
-            }
+                weightInput.addEventListener("input", calculateTotals);
+                priceInput.addEventListener("input", calculateTotals);
+            });
         }
 
-	document.getElementById("departure-date").addEventListener("change", calculateDaysAtSea);
-	document.getElementById("return-date").addEventListener("change", calculateDaysAtSea);
-
+        
         function addRow() {
             const tableBody = document.querySelector("tbody");
             const newRow = document.createElement("tr");
@@ -252,30 +239,48 @@
             `;
 
             tableBody.appendChild(newRow);
+
+            
+            setupEventListeners();
         }
 
-        function addFishingLocation() {
-            const locationContainer = document.getElementById("fishing-locations");
-            const locationRow = document.createElement("div");
-            locationRow.classList.add("location-row");
+        
+        function calculateDaysAtSea() {
+            const departureDateInput = document.getElementById("departure-date");
+            const returnDateInput = document.getElementById("return-date");
+            const daysAtSeaInput = document.getElementById("days-at-sea");
 
-            locationRow.innerHTML = `
-                <input type="number" step="0.0001" name="latitude[]" placeholder="Latitude" required>
-                <input type="number" step="0.0001" name="longitude[]" placeholder="Longitude" required>
-            `;
+            const departureDate = departureDateInput.value;
+            const returnDate = returnDateInput.value;
 
-            locationContainer.appendChild(locationRow);
+            if (departureDate && returnDate) {
+                const startDate = new Date(departureDate);
+                const endDate = new Date(returnDate);
+
+                if (startDate > endDate) {
+                    alert("Return date cannot be earlier than the departure date.");
+                    daysAtSeaInput.value = "";
+                    return;
+                }
+
+                const timeDifference = endDate - startDate;
+                const daysAtSea = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+                daysAtSeaInput.value = daysAtSea;
+            } else {
+                daysAtSeaInput.value = "";
+            }
         }
 
-        document.addEventListener("input", calculateTotals);
+        
+        document.getElementById("departure-date").addEventListener("change", calculateDaysAtSea);
+        document.getElementById("return-date").addEventListener("change", calculateDaysAtSea);
 
-        function printPage() {
-            window.print();
-        }
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            setupEventListeners();
+        });
 
-        function saveAsPDF() {
-            window.print(); // The browser's print dialog will appear, and from there you can save it as PDF
-        }
     </script>
 </head>
 <body>
@@ -284,7 +289,7 @@
             <img src="https://github.com/usopdrahman/logbookdof/blob/main/DOF%20LOGO.png?raw=true" alt="Department of Fisheries Malaysia Logo">
         </div>
         <div>
-            <h1>Buku Log Operasi Menangkap Ikan</h1> <!-- Title styling applied -->
+            <h1>Buku Log Operasi Menangkap Ikan</h1>
             <div class="vessel-no">
                 <label for="vessel-no">Vessel No:</label>
                 <input type="text" id="vessel-no" name="vessel_no" required>
@@ -312,7 +317,7 @@
             <input type="number" step="0.01" id="food" name="food" required>
         </fieldset>
 
-        <!-- Operation Details -->
+	<!-- Operation Details -->
         <fieldset>
             <legend>Operation Details</legend>
             <label for="trip-no">Trip Number:</label>
@@ -343,7 +348,7 @@
             <input type="number" step="0.1" id="avg-hours-per-haul" name="avg_hours_per_haul" required>
         </fieldset>
 
-        <!-- Fishing Location -->
+	<!-- Fishing Location -->
         <fieldset>
             <legend>Fishing Location</legend>
             <div id="fishing-locations">
@@ -409,18 +414,18 @@
         <fieldset>
             <legend>Submission</legend>
             <p><strong>Dengan ini mengaku maklumat yang diberikan adalah tepat dan betul</strong></p>
-
-            <label for="submitted-by">Submitted By (Name):</label>
+            
+	    <label for="submitted-by">Submitted By (Name):</label>
             <input type="text" id="submitted-by" name="submitted_by" required>
-
+            
             <label for="submitted-id">IC No:</label>
             <input type="text" id="submitted-id" name="submitted_id" required>
-
-            <label for="submitted-date">Submission Date:</label>
+            
+	    <label for="submitted-date">Submission Date:</label>
             <input type="date" id="submitted-date" name="submitted_date" required>
         </fieldset>
 
-        <!-- Verification Section -->
+	<!-- Verification Section -->
         <fieldset>
             <legend>Verification</legend>
 	    <p><strong>Dengan ini mengaku telah memastikan maklumat yang diberikan adalah tepat dan betul</strong></p>
@@ -441,8 +446,8 @@
         <!-- Submit and Action Buttons -->
         <div class="button">
             <button type="submit">Submit</button>
-            <button type="button" onclick="printPage()">Print</button>
-            <button type="button" onclick="saveAsPDF()">Save as PDF</button>
+            <button type="button" onclick="window.print()">Print</button>
+            <button type="button" onclick="window.print()">Save as PDF</button>
         </div>
     </form>
 </body>
