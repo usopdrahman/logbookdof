@@ -160,7 +160,7 @@
             width: 48%;
         }
 
-        /* Title Styling */
+        
         h1 {
             font-size: 36px;
             font-weight: bold;
@@ -170,6 +170,72 @@
             letter-spacing: 2px;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
             text-align: left;
+        }
+
+/* Print styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+                margin: 0;
+                padding: 0;
+                font-size: 10pt;
+                column-count: 2; 
+                column-gap: 20px;
+            }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+                page-break-before: always;
+                flex-direction: column;
+            }
+            .logo {
+                margin-bottom: 10px;
+            }
+            .logo img {
+                max-width: 120px;
+            }
+            .title {
+                font-size: 20px;
+                margin-top: 10px;
+            }
+            form {
+                display: block;
+                margin: 0;
+                padding: 0;
+            }
+            fieldset {
+                margin: 8px 0;
+                padding: 8px;
+                border: none;
+                background: none;
+                page-break-inside: avoid;
+            }
+            label, input, select {
+                font-size: 10px;
+                margin: 4px 0;
+                width: 100%;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 8px;
+            }
+            th, td {
+                font-size: 10px;
+                padding: 5px;
+            }
+            .button {
+                display: none;
+            }
+            .add-row-btn, .add-location-btn {
+                display: none;
+            }
+            .footer {
+                display: none;
+            }
         }
     </style>
     <script>
